@@ -9,11 +9,12 @@ WSGI interface has two sides:
 script to create an instance of the server or gateway, and supply it with the
 application object
 
--use configuration files or other mechanisms to specify where an application
+- use configuration files or other mechanisms to specify where an application
 object should be imported from, or otherwise obtained
 
 
 ##The Application/Framework Side
+
 **Note**WSGI is a tool for framework and server developers, and is not intended
 to directly support application developers.
 
@@ -52,12 +53,13 @@ class AppClass:
         self.start(status, response_headers)
         yield "Hello world!\n"
 ```
+
 ##The Server/Gateway Side
 
 The server or gateway invokes the application callable once for each request
 it receives from an HTTP client, that is directed at the application
 
-**note:**n uncaught exception will be dumped to sys.stderr and logged by the
+**Note:** uncaught exception will be dumped to sys.stderr and logged by the
 web server
 
 ```python

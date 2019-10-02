@@ -118,6 +118,42 @@ def run_with_cgi(application):
         if hasattr(result, 'close'):
             result.close()
 ```
+##### environ
+**Note:** The environ dictionary contains `CGI` environment
+variables (Common Gateway Interface).
+It consists of :
+- REQUEST_METHOD : verbs such as "GET" or "POST"
+- SCRIPT_NAME :  initial portion of the request URL's "path"
+- PATH_INFO : remainder of the request URL's "path"
+- QUERY_STRING : ortion of the request URL that follows the "?"
+- CONTENT_TYPE : The contents of any Content-Type 
+- SERVER_NAME, SERVER_PORT : combined with SCRIPT_NAME and PATH_INFO
+- SERVER_PROTOCOL : like "HTTP/1.0" or "HTTP/1.1"
+- HTTP_ Variables : names begin with "HTTP_"
+**Note:**In addition, if SSL is in use, the server or gateway should also 
+provide as many of the Apache SSL environment variables
+**Note:**A WSGI-compliant server or gateway should document what variables it
+provides
+
+##### start_response()
+arguments:
+- **status argument** is an HTTP "status" string like "200 OK" or "404 Not Found"
+- **response_headers** argument is a list of (header_name, header_value) tuples
+- **exc_info** is a  list of exception trapped by the application
+
+```python
+def start_response(status, response_headers, exc_info=None):
+    if exc_info:
+         try:
+             # do stuff w/exc_info here
+         finally:
+             exc_info = None    # Avoid circular ref.
+```
+
+- must not actually transmit the response headers. Instead, it must store them
+for the server or gateway to transmit only after the first iteration of the
+application return value that yields a non-empty string, or upon the
+application's first invocation of the write() callable
 ## Middleware: Components that Play Both Sides
 
 - Routing a request to different application objects based on the target URL,
@@ -128,7 +164,6 @@ prashasadiiranrocess
 over a network
 - Perform content postprocessing, such as applying XSL stylesheets
 
-### The start_response() Callable
 
 
 ##Details
